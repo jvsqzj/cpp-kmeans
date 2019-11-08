@@ -2,10 +2,31 @@
 //
 
 #include <iostream>
+#include "algorithm.h"
+
+const int N = 2; //Number of data pointsr
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	//TODO Define data input
+
+	//callKmeans function on data input
+	vector<float> data[N];
+	vector<float> A, B;
+	A.push_back(51.52f);
+	A.push_back(140.21f);
+	B.push_back(84.502f);
+	B.push_back(0.0512f);
+	data[0] = A;
+	data[1] = B;
+
+
+	std::cout << "Array = 0x" << data << ", data: " << *data[0].data() << endl;
+	std::cout << "WIP!\n";
+
+	cluster(data, 5);
+	
+	//output result
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
