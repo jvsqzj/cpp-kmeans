@@ -1,9 +1,10 @@
 #include <vector>
+#include <list>
 
 using namespace std;
 
-void cluster(vector<float> data[], int clusters);
+void cluster(list<vector<double>> data, int clusters);
 
-void euclideanDistance(vector<float> vector1, vector<float> vector2);
+void euclideanDistance(vector<double> vector1, vector<double> vector2);
 
-void updateCentroid(vector<float> centroids);
+void updateCentroid(vector<double> cluster);

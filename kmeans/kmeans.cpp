@@ -4,21 +4,37 @@
 #include <iostream>
 #include "algorithm.h"
 
-const int N = 2; //Number of data pointsr
+const int N = 3; //Number of data pointsr
+
+using namespace std;
 
 int main()
 {
+	list<vector<double>> data;
 	// Define data input
-	vector<float> data[N];
-	vector<float> A, B;
+	vector<double> A, B, C;
+	A.push_back(51.52f);
+	A.push_back(-140.21f);
+	A.push_back(10.21f);
 	A.push_back(51.52f);
 	A.push_back(-140.21f);
 	A.push_back(10.21f);
 	B.push_back(84.502f);
 	B.push_back(0.0512f);
 	B.push_back(-5.15f);
-	data[0] = A;
-	data[1] = B;
+	B.push_back(84.502f);
+	B.push_back(0.0512f);
+	B.push_back(-5.15f);
+	C.push_back(5.2f);
+	C.push_back(-0.21f);
+	C.push_back(1.21f);
+	C.push_back(1.52f);
+	C.push_back(-11.09f);
+	C.push_back(0.123f);
+
+	data.push_back(A);
+	data.push_back(B);
+	data.push_back(C);
 
 	std::cout << "WIP!\n";
 
