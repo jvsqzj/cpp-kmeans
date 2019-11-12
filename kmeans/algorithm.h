@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void cluster(list<vector<double>> data, int clusters);
+void findClusters(list<vector<double>> data, int K);
 
 void euclideanDistance(vector<double> vector1, vector<double> vector2);
 
