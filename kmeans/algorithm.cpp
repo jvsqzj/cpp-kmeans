@@ -85,7 +85,6 @@ void findClusters(list<vector<double>> data, int K) {
 
 	while (!clustersOptimized) {
 		//	Start of algorithm
-
 		for (list<vector<double>>::iterator i = data.begin(); i != data.end(); ++i) {		//	Iterate over each vector in list data
 			double shortestDistance = euclideanDistance(*i, clusters.begin()->centroid);
 			list<cluster>::iterator closest = clusters.begin();
@@ -99,7 +98,7 @@ void findClusters(list<vector<double>> data, int K) {
 				}
 			}
 			closest->elements.push_back(*i);
-			printf("Distancia = %f \n", shortestDistance);
+			//printf("Distancia = %f \n", shortestDistance);
 		}
 		bool clustersDone = true;
 		for (list<cluster>::iterator i = clusters.begin(); i != clusters.end(); ++i) {
@@ -107,7 +106,7 @@ void findClusters(list<vector<double>> data, int K) {
 			clustersDone = clustersDone * i->clusterOptimized;
 		}
 		clustersOptimized = clustersDone;
-		printf("Are we done yet? %d \n", clustersOptimized);
+		//printf("Are we done yet? %d \n", clustersOptimized);
 	}
 	printClusters(clusters);
 }
