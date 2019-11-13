@@ -12,43 +12,43 @@ int main()
 {
 	list<vector<double>> data;
 	// Define data input
-	vector<double> A, B, C, D, E, F;
+	vector<double> A, B, C, D, E, F, G, H, I, J, K, L;
 	A.push_back(51.52f);
 	A.push_back(-140.21f);
 	A.push_back(-0.21f);
-	A.push_back(2.56f);
-	A.push_back(-0.456f);
-	A.push_back(88.21f);
-	B.push_back(84.502f);
-	B.push_back(0.0512f);
-	B.push_back(-5.15f);
-	B.push_back(8.502f);
-	B.push_back(78.12f);
-	B.push_back(-15.15f);
-	C.push_back(5.2f);
-	C.push_back(-0.21f);
-	C.push_back(1.21f);
-	C.push_back(1.52f);
-	C.push_back(-11.09f);
-	C.push_back(0.123f);
-	D.push_back(5.124f);
-	D.push_back(-10.21f);
-	D.push_back(-789.21f);
-	D.push_back(0.005f);
-	D.push_back(-47.6f);
-	D.push_back(8.21f);
-	E.push_back(4.52f);
-	E.push_back(0.52f);
-	E.push_back(5.1f);
-	E.push_back(8.502f);
-	E.push_back(798.12f);
-	E.push_back(-1.15f);
-	F.push_back(15.2f);
-	F.push_back(-0.2221f);
-	F.push_back(-1.21f);
-	F.push_back(1.352f);
-	F.push_back(-11.1109f);
-	F.push_back(10.123f);
+	B.push_back(2.56f);
+	B.push_back(-0.456f);
+	B.push_back(88.21f);
+	C.push_back(84.502f);
+	C.push_back(0.0512f);
+	C.push_back(-5.15f);
+	D.push_back(8.502f);
+	D.push_back(78.12f);
+	D.push_back(-15.15f);
+	E.push_back(5.2f);
+	E.push_back(-0.21f);
+	E.push_back(1.21f);
+	F.push_back(1.52f);
+	F.push_back(-11.09f);
+	F.push_back(0.123f);
+	G.push_back(5.124f);
+	G.push_back(-10.21f);
+	G.push_back(-789.21f);
+	H.push_back(0.005f);
+	H.push_back(-47.6f);
+	H.push_back(8.21f);
+	I.push_back(4.52f);
+	I.push_back(0.52f);
+	I.push_back(5.1f);
+	J.push_back(8.502f);
+	J.push_back(798.12f);
+	J.push_back(-1.15f);
+	K.push_back(15.2f);
+	K.push_back(-0.2221f);
+	K.push_back(-1.21f);
+	L.push_back(1.352f);
+	L.push_back(-11.1109f);
+	L.push_back(10.123f);
 
 	data.push_back(A);
 	data.push_back(B);
@@ -56,11 +56,16 @@ int main()
 	data.push_back(D);
 	data.push_back(E);
 	data.push_back(F);
+	data.push_back(H);
+	data.push_back(I);
+	data.push_back(J);
+	data.push_back(K);
+	data.push_back(L);
 
 	std::cout << "WIP!\n";
 
 	//callKmeans function on data input
-	findClusters(data, 2);
+	findClusters(data, 5);
 	
 	//output result
 }

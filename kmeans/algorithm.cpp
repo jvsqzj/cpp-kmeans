@@ -32,13 +32,30 @@ struct cluster {
 			clusterOptimized = true;
 		}
 		else {
-			//-> set mean as new centroid 
-			centroid = vectorSum;
-			//-> clear elements
-			elements.clear();
+			centroid = vectorSum;	//-> set mean as new centroid 
+			elements.clear();		//-> clear elements
 		}
 	}
 };
+
+void printVector(vector<double> vect) {
+	for (vector<double>::iterator j = vect.begin(); j != vect.end(); ++j) {
+		printf(" %f ", *j);
+	}
+}
+
+void printClusters(list<cluster> data) {
+	for (list<cluster>::iterator i = data.begin(); i != data.end(); ++i) {
+		printf("Cluster centroid: ");
+		printVector(i->centroid);
+		printf("\n");
+		for (list<vector<double>>::iterator j = i->elements.begin(); j != i->elements.end(); ++j) {
+			printf("                  ");
+			printVector(*j);
+			printf("\n");
+		}
+	}
+}
 
 double euclideanDistance(vector<double> vector1, vector<double> vector2) {
 	double squares = 0;
@@ -68,31 +85,29 @@ void findClusters(list<vector<double>> data, int K) {
 
 	while (!clustersOptimized) {
 		//	Start of algorithm
-		//	Iterate over each vector in list data
-		for (list<vector<double>>::iterator i = data.begin(); i != data.end(); ++i) {
 
+		for (list<vector<double>>::iterator i = data.begin(); i != data.end(); ++i) {		//	Iterate over each vector in list data
 			double shortestDistance = euclideanDistance(*i, clusters.begin()->centroid);
 			list<cluster>::iterator closest = clusters.begin();
 
-			//	Iterate over cluster list to check closest centroid
-			for (list<cluster>::iterator j = ++clusters.begin(); j != clusters.end(); ++j) {
+			for (list<cluster>::iterator j = ++clusters.begin(); j != clusters.end(); ++j) {//	Iterate over cluster list to check closest centroid
 				double distance = euclideanDistance(*i, j->centroid);
-
 				bool inCluster = (distance < shortestDistance);
 				if (inCluster) {
 					shortestDistance = distance;
 					closest = j;
 				}
 			}
-
 			closest->elements.push_back(*i);
 			printf("Distancia = %f \n", shortestDistance);
 		}
+		bool clustersDone = true;
+		for (list<cluster>::iterator i = clusters.begin(); i != clusters.end(); ++i) {
+			i->updateCentroid();
+			clustersDone = clustersDone * i->clusterOptimized;
+		}
+		clustersOptimized = clustersDone;
+		printf("Are we done yet? %d \n", clustersOptimized);
 	}
-
-	for (list<cluster>::iterator i = clusters.begin(); i != clusters.end(); ++i) {
-		i->updateCentroid();
-		clustersOptimized = !clustersOptimized*i->clusterOptimized;
-	}
-	printf("Are we done yet? %b", clustersOptimized);
+	printClusters(clusters);
 }
