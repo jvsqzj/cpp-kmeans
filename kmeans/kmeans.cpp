@@ -1,136 +1,118 @@
-// kmeans.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
-#include <iostream>
-#include "algorithm.h"
+#include <math.h>
+#include <vector>
+#include <stdio.h>
+#include <list>
+#include <algorithm>
 
 using namespace std;
 
-int main() {
-
-	list<vector<double>> data;
-	// Define data input
-	vector<double> A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
-
-	A.push_back(51.52f);
-	A.push_back(-140.21f);
-
-	B.push_back(2.56f);
-	B.push_back(88.21f);
-
-	C.push_back(84.502f);
-	C.push_back(-5.15f);
-
-	D.push_back(8.502f);
-	D.push_back(78.12f);
-
-	E.push_back(-0.21f);
-	E.push_back(1.21f);
-
-	F.push_back(-11.09f);
-	F.push_back(0.123f);
-
-	G.push_back(5.124f);
-	G.push_back(-789.21f);
-
-	H.push_back(-47.6f);
-	H.push_back(8.21f);
-
-	I.push_back(0.52f);
-	I.push_back(5.1f);
-
-	J.push_back(8.502f);
-	J.push_back(-1.15f);
-
-	K.push_back(15.2f);
-	K.push_back(-1.21f);
-
-	L.push_back(1.352f);
-	L.push_back(-11.1109f);
-
-	M.push_back(51.52f);
-	M.push_back(-140.21f);
-
-	N.push_back(2.56f);
-	N.push_back(88.21f);
-
-	O.push_back(0.0512f);
-	O.push_back(-5.15f);
-
-	P.push_back(78.12f);
-	P.push_back(-15.15f);
-
-	Q.push_back(5.2f);
-	Q.push_back(-0.21f);
-
-	R.push_back(-11.09f);
-	R.push_back(0.123f);
-
-	S.push_back(5.124f);
-	S.push_back(-10.21f);
-
-	T.push_back(0.005f);
-	T.push_back(-47.6f);
-
-	U.push_back(4.52f);
-	U.push_back(0.52f);
-
-	V.push_back(8.502f);
-	V.push_back(798.12f);
-
-	W.push_back(15.2f);
-	W.push_back(-0.2221f);
-
-	X.push_back(1.352f);
-	X.push_back(-11.1109f);
-
-	Y.push_back(15.2f);
-	Y.push_back(-1.21f);
-
-	Z.push_back(-0.2221f);
-	Z.push_back(-1.21f);
-
-	data.push_back(A);
-	data.push_back(B);
-	data.push_back(C);
-	data.push_back(D);
-	data.push_back(E);
-	data.push_back(F);
-	data.push_back(H);
-	data.push_back(I);
-	data.push_back(J);
-	data.push_back(K);
-	data.push_back(L);
-	data.push_back(M);
-	data.push_back(N);
-	data.push_back(O);
-	data.push_back(P);
-	data.push_back(Q);
-	data.push_back(R);
-	data.push_back(S);
-	data.push_back(T);
-	data.push_back(U);
-	data.push_back(V);
-	data.push_back(W);
-	data.push_back(X);
-	data.push_back(Y);
-	data.push_back(Z);
-
-	std::cout << "WIP!\n";
-
-	//callKmeans function on data input
-	findClusters(data, 9, 100);
-	
-	//output result
+vector<double> calculateMean(list<vector<double>> dataPoints) {
+	//Calculate mean of elements in cluster
+	//Create empty (zero value) sum vector with the size of the centroid
+	vector<double> meanVector = *dataPoints.begin();
+	for (vector<double>::iterator i = meanVector.begin(); i != meanVector.end(); ++i) {
+		*i = 0;
+	}
+	//Calculate mean
+	for (list<vector<double>>::iterator i = dataPoints.begin(); i != dataPoints.end(); ++i) {
+		for (vector<double>::iterator j = i->begin(), k = meanVector.begin(); j != i->end(); ++j) {
+			*k = *k + *j;
+			++k;
+		}
+	}
+	for (vector<double>::iterator j = meanVector.begin(); j != meanVector.end(); ++j) {
+		*j = *j / dataPoints.size();
+	}
+	return meanVector;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+struct cluster {
+	vector<double> centroid;
+	vector<double> lastCentroid;
+	list<vector<double>> elements;
+	bool clusterOptimized = false;
+	
+	void updateCentroid(){
+		vector<double> meanVector = calculateMean(elements);
+		if (centroid == meanVector) {
+			clusterOptimized = true;
+		}
+		else {
+			centroid = meanVector;	//-> set mean as new centroid 
+			elements.clear();		//-> clear elements
+		}
+	}
+};
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void printVector(vector<double> vect) {
+	for (vector<double>::iterator j = vect.begin(); j != vect.end(); ++j) {
+		printf(" %f ", *j);
+	}
+}
+
+void printClusters(list<cluster> data) {
+	for (list<cluster>::iterator i = data.begin(); i != data.end(); ++i) {
+		printf("Cluster centroid: ");
+		printVector(i->centroid);
+		printf("\n");
+		for (list<vector<double>>::iterator j = i->elements.begin(); j != i->elements.end(); ++j) {
+			printf("                  ");
+			printVector(*j);
+			printf("\n");
+		}
+	}
+}
+
+double euclideanDistance(vector<double> vector1, vector<double> vector2) {
+	double squares = 0;
+
+	for (vector<double>::iterator it = vector1.begin(), jt = vector2.begin(); it != vector1.end(); ++it) {
+		double component = *it - *jt;
+		squares += component * component;
+		++jt;
+	}
+
+	return sqrt(squares);
+}
+
+void findClusters(list<vector<double>> data, int K, int maxIterations) {
+	list<cluster> clusters;
+	
+	/*    SETS INITIAL CENTROIDS    */
+	list<vector<double>>::reverse_iterator i = data.rbegin();
+	while (clusters.size() < K) {
+		cluster centroid;
+		centroid.centroid = *i;
+		clusters.push_back(centroid);
+		++i;
+	}
+
+	bool clustersOptimized = false;
+	int iterations = 0;
+	while (!clustersOptimized && iterations < maxIterations) {
+		//	Start of algorithm
+		for (list<vector<double>>::iterator i = data.begin(); i != data.end(); ++i) {		//	Iterate over each vector in list data
+			double shortestDistance = euclideanDistance(*i, clusters.begin()->centroid);
+			list<cluster>::iterator closest = clusters.begin();
+
+			for (list<cluster>::iterator j = ++clusters.begin(); j != clusters.end(); ++j) {//	Iterate over cluster list to check closest centroid
+				double distance = euclideanDistance(*i, j->centroid);
+				bool inCluster = (distance < shortestDistance);
+				if (inCluster) {
+					shortestDistance = distance;
+					closest = j;
+				}
+			}
+			closest->elements.push_back(*i);
+		}
+		bool clustersDone = true;
+		for (list<cluster>::iterator i = clusters.begin(); i != clusters.end(); ++i) {
+			i->updateCentroid();
+			clustersDone = clustersDone * i->clusterOptimized;
+		}
+		clustersOptimized = clustersDone;
+		//printf("Are we done yet? %d \n", clustersOptimized);
+		iterations++;
+	}
+	printClusters(clusters);
+}
